@@ -42,16 +42,14 @@ $page_first_result = ($page - 1) * $rows_per_page;
     <h2>Student Records</h2>
     <table class="orange-theme">
         <thead>
-            <tr> <!-- Amalmagation of students & student_detail tables -->
-
-                <!-- Student Table -->
+            <tr> 
                 <th>Student Number</th>
                 <th>First Name</th>
                 <th>Middle Name</th>
                 <th>Last Name</th>
                 <th>Gender</th>
                 <th>Birthdate</th>
-                <!-- Student Details Table -->
+
                 <th>Contact Number</th>
                 <th>Street</th>
                 <th>Town City</th>
@@ -61,10 +59,8 @@ $page_first_result = ($page - 1) * $rows_per_page;
             </tr>
         </thead>
         <tbody>
-            <!-- You'll need to dynamically generate these rows with data from your database -->
        
-            
-            
+
             <?php
             $studentData = $student->displayLimit($page_first_result,$rows_per_page); 
             
@@ -79,7 +75,6 @@ $page_first_result = ($page - 1) * $rows_per_page;
                 <td><?php echo $x['birthday']; ?></td>
                 
 
-                <!-- student_details table -->
 
                 <?php
                     $y = $student_details->studentSearch($x['id']);

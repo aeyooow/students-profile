@@ -154,6 +154,10 @@ input[type="submit"]:hover {
     background-color: #3DAC78; /* Slightly darker hover color using the provided hex code */
 }
 
+h2 {
+    text-align: center;
+}
+
 /* Header */
 header {
     background-color: #D8F3DC;
@@ -182,8 +186,8 @@ header {
 .button-link {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #74C69D; /* Button background color */
-    color: #fff; /* Button text color */
+    background-color: #74C69D; 
+    color: #fff;
     text-decoration: none;
     border: none;
     border-radius: 5px;
@@ -192,10 +196,9 @@ header {
 }
 
 .button-link:hover {
-    background-color: #3DAC78; /* Button background color on hover */
+    background-color: #3DAC78;
 }
 
-/* Footer */
 footer {
     background-color: #D8F3DC;
     color: #fff;
@@ -224,11 +227,9 @@ footer {
     color: #fff;
 }
 
-/* Change font color for links on hover */
 .footer-links a:hover {
     color: #74C69D;
 }
-/* Change font color for links on hover */
 .footer-links a:hover {
     color: #74C69D;
 }
@@ -244,11 +245,10 @@ footer {
     border-radius: 5px;
     text-decoration: none;
 }
+.page_btn:hover {
+    background-color: #f4f4f4;
+}
 
-
-
-
-/* For reports' style */
 
 .chart_div {
     margin: 20px;
@@ -259,7 +259,7 @@ footer {
 }
 
 .content_report, .content_report_bd {
-    margin-left: 270px; /* Adjust to match the sidebar width */
+    margin-left: 270px;
     padding: 100px;
 
     border-width: 2px;
@@ -275,9 +275,6 @@ footer {
 }
 .content_report_bd {
     margin-left: 230px;
-    padding: 50px 180px 50px 180px; /* Top Right Bottom Left*/
+    padding: 50px 180px 50px 180px; 
 }
 
-h2 {
-    text-align: center;
-}
