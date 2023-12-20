@@ -8,26 +8,14 @@ class Province {
         $this->db = $db;
     }
 
-    public function getAll() {
-        try {
-            $sql = "SELECT * FROM province";
-            $stmt = $this->db->getConnection()->prepare($sql);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            // Handle errors (log or display)
-            throw $e; // Re-throw the exception for higher-level handling
-        }
-    }
-     public function create($data) {
+    public function create($data) {
         try {
             // Prepare the SQL INSERT statement
-            $sql = "INSERT INTO province(name) VALUES(:name);";
+            $sql = "INSERT INTO province(name) VALUES(:province_name);";
             $stmt = $this->db->getConnection()->prepare($sql);
 
             // Bind values to placeholders
-            $stmt->bindParam(':name', $data['name']);
+            $stmt->bindParam(':province_name', $data['name']);
 
             // Execute the INSERT query
             $stmt->execute();
@@ -56,9 +44,9 @@ class Province {
             $stmt->execute();
 
             // Fetch the student data as an associative array
-            $provinceData = $stmt->fetch(PDO::FETCH_ASSOC);
+            $prov = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            return $provinceData;
+            return $prov;
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             throw $e; // Re-throw the exception for higher-level handling
@@ -73,8 +61,9 @@ class Province {
 
             $stmt = $this->db->getConnection()->prepare($sql);
             // Bind parameters
-            $stmt->bindValue(':id', $data['id']);
+            $stmt->bindValue(':id', $id);
             $stmt->bindValue(':name', $data['name']);
+
             // Execute the query
             $stmt->execute();
 
@@ -84,21 +73,48 @@ class Province {
             throw $e; // Re-throw the exception for higher-level handling
         }
     }
-
-    public function delete($id) {
+    public function delete($id) { # untested
         try {
-            $sql = "DELETE FROM province WHERE id = :id";
+            $sql = "DELETE FROM province where id = :id";
             $stmt = $this->db->getConnection()->prepare($sql);
-            $stmt->bindValue(':id', $id);
+            $stmt->bindValue(':id',$id);
             $stmt->execute();
 
-            // Check if any rows were affected (record deleted)
             if ($stmt->rowCount() > 0) {
                 return true; // Record deleted successfully
             } else {
-                return false; // No records were deleted (student_id not found)
+                return false; // No records were deleted
             }
+
         } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            throw $e;
+        }
+    }
+
+    public function displayLimit($page_first_result,$rows_per_page) {
+        try {
+            $sql = "SELECT * FROM province LIMIT " . $page_first_result . "," . $rows_per_page;
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Handle errors (log or display)
+            echo "Error: " . $e->getMessage();
+            throw $e; // Re-throw the exception for higher-level handling
+        }
+    }
+
+    public function displayAll() {
+        try {
+            $sql = "SELECT * FROM province";
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Handle errors (log or display)
             echo "Error: " . $e->getMessage();
             throw $e; // Re-throw the exception for higher-level handling
         }

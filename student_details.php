@@ -37,7 +37,25 @@ class StudentDetails {
         
     }
 
-    // Other CRUD methods for student details
+    public function studentSearch($studentID) { # Individual Search for a row, plays a main role for merging two tables in one visual table
+        try { # Basically read() but uses studentID
+            $connection = $this->db->getConnection();
+
+            $sql = "SELECT * FROM student_details WHERE student_id = :id";
+            $stmt = $connection->prepare($sql);
+            $stmt->bindValue(':id', $studentID);
+            $stmt->execute();
+
+            // Fetch the student data as an associative array
+            $studentData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $studentData;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            throw $e; // Re-throw the exception for higher-level handling
+        }
+    }
+
     public function read($id) {
         try {
             $connection = $this->db->getConnection();
@@ -74,7 +92,7 @@ class StudentDetails {
             $stmt->bindValue(':student_id', $data['student_id']);
             $stmt->bindValue(':contact_number', $data['contact_number']);
             $stmt->bindValue(':street', $data['street']);
-            $stmt->bindValue(':zip_code', $data['zip_code']);
+            $stmt->bindValue(':last_name', $data['zip_code']);
             $stmt->bindValue(':town_city', $data['town_city']);
             $stmt->bindValue(':province', $data['province']);
 
@@ -82,6 +100,25 @@ class StudentDetails {
             $stmt->execute();
 
             return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            throw $e; // Re-throw the exception for higher-level handling
+        }
+    }
+    
+    public function studentDelete($id) { # delete function based on student id rather than studentdetail id.
+        try {
+            $sql = "DELETE FROM student_details WHERE student_id = :id";
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
+
+            // Check if any rows were affected (record deleted)
+            if ($stmt->rowCount() > 0) {
+                return true; // Record deleted successfully
+            } else {
+                return false; // No records were deleted (student_id not found)
+            }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             throw $e; // Re-throw the exception for higher-level handling
@@ -109,11 +146,13 @@ class StudentDetails {
 
     public function displayAll(){
         try {
-            $sql = "SELECT * FROM student_details LIMIT 10"; // Modify the table name to match your database
+            // Modify the table name to match your database
+
+            $sql = "SELECT * FROM student_details LIMIT 10";
+
             $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
             return $result;
         } catch (PDOException $e) {
             // Handle any potential errors here
@@ -121,6 +160,8 @@ class StudentDetails {
             throw $e; // Re-throw the exception for higher-level handling
         }
     }
+
+    // Other CRUD methods for student details
 }
 
 ?>
